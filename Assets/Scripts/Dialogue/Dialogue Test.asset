@@ -15,4 +15,10 @@ MonoBehaviour:
   actor: {fileID: 0}
   speakerSprite: {fileID: 0}
   sentence: 
-  dialogues: []
+  dialogues:
+  - actorName: 
+    profile: {fileID: -3491692646383869254, guid: ca73b77b5f4cfc74287dbf2233d39779, type: 3}
+    sentence:
+      portuguese: Testando Falas
+      english: 
+      spanish: 
