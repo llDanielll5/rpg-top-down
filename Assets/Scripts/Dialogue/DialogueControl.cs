@@ -6,14 +6,14 @@ using UnityEngine.UI;
 public class DialogueControl : MonoBehaviour
 {
     [System.Serializable]
-    public enum idioma
+    public enum idiom
     {
         Portugues,
         English,
         Spanish
     }
 
-    public idioma language;
+    public idiom language;
 
     [Header("Components")]
     public GameObject dialogueObj;//janela do dialogo
@@ -31,6 +31,8 @@ public class DialogueControl : MonoBehaviour
     public bool IsShowing { get => isShowing; set => isShowing = value; }
 
     private string[] sentences;
+    private string[] currentActorName;
+    private Sprite[] actorSprite;
 
     public static DialogueControl instance;//transformando em um singleton, estático.
 
@@ -38,15 +40,6 @@ public class DialogueControl : MonoBehaviour
     private void Awake()
     {
         instance = this;
-    }
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
     }
 
     IEnumerator TypeSentence()
@@ -66,27 +59,39 @@ public class DialogueControl : MonoBehaviour
             if(index < sentences.Length - 1)
             {
                 index++;
+                profileSprite.sprite = actorSprite[index];
+                actorNameText.text = currentActorName[index];
                 speechText.text = "";
                 StartCoroutine(TypeSentence());
             }
             else// quando se terminam os textos
             {
-                speechText.text = "";
-                index = 0;
-                dialogueObj.SetActive(false);
-                sentences = null;
-                isShowing = false;
+                ResetSentence();
             }
         }
     }
 
+    public void ResetSentence()
+    {
+        speechText.text = "";
+        actorNameText.text = "";
+        index = 0;
+        dialogueObj.SetActive(false);
+        sentences = null;
+        isShowing = false;
+    }
+
     //chamar a fala do npc
-    public void Speech(string[] txt)
+    public void Speech(string[] txt, string[] actorName, Sprite[] actorProfile)
     {
         if (!isShowing)
         {
             dialogueObj.SetActive(true);
             sentences = txt;
+            currentActorName = actorName;
+            actorSprite = actorProfile;
+            profileSprite.sprite = actorSprite[index];
+            actorNameText.text = currentActorName[index];
             StartCoroutine(TypeSentence());
             isShowing = true;
         }

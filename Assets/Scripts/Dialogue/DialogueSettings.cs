@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CreateAssetMenu(fileName = "New Dialogue", menuName = "New Dialogue/Dialogue")]
-public class DialogueSettings : ScriptableObject
+[CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue/New Dialogue")]
+public class DialogueSettings : ScriptableObject 
 {
 
     [Header("Settings")]

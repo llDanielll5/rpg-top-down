@@ -11,6 +11,9 @@ public class NPC_Dialogue : MonoBehaviour
     bool playerHit;
 
     private List<string> sentences = new List<string>();
+    private List<string> actorName = new List<string>();
+    private List<Sprite> actorSprite = new List<Sprite>();
+
 
     void Start()
     {
@@ -20,7 +23,12 @@ public class NPC_Dialogue : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E)&& playerHit)
         {
-            DialogueControl.instance.Speech(sentences.ToArray());
+            if (DialogueControl.instance.IsShowing == true)
+            {
+                DialogueControl.instance.NextSentence();
+                return;
+            }
+            DialogueControl.instance.Speech(sentences.ToArray(), actorName.ToArray(), actorSprite.ToArray());
         }   
     }
 
@@ -40,7 +48,7 @@ public class NPC_Dialogue : MonoBehaviour
         else
         {
             playerHit = false;
-            
+            DialogueControl.instance.ResetSentence();
         }
     }
     private void OnDrawGizmosSelected()
@@ -54,18 +62,21 @@ public class NPC_Dialogue : MonoBehaviour
         {
             switch (DialogueControl.instance.language)
             {
-                case DialogueControl.idioma.Portugues:
+                case DialogueControl.idiom.Portugues:
                     sentences.Add(dialogue.dialogues[i].sentence.portuguese);
                     break;
 
-                case DialogueControl.idioma.English:
+                case DialogueControl.idiom.English:
                     sentences.Add(dialogue.dialogues[i].sentence.english);
                     break;
 
-                case DialogueControl.idioma.Spanish:
+                case DialogueControl.idiom.Spanish:
                     sentences.Add(dialogue.dialogues[i].sentence.spanish);
                     break;
             }
+
+            actorName.Add(dialogue.dialogues[i].actorName);
+            actorSprite.Add(dialogue.dialogues[i].profile);
         }
     }
 }
