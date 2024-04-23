@@ -45,14 +45,18 @@ public class BuilderEditor : Editor
 
         DialogueSettings ds = (DialogueSettings)target;
 
-        Languages l = new Languages();
-        l.portuguese = ds.sentence;
+        Languages l = new Languages
+        {
+            portuguese = ds.sentence
+        };
 
-        Sentences s = new Sentences();
-        s.profile = ds.speakerSprite;
-        s.sentence = l;
+        Sentences s = new Sentences
+        {
+            profile = ds.speakerSprite,
+            sentence = l
+        };
 
-        if(GUILayout.Button("Create Dialogue"))
+        if (GUILayout.Button("Create Dialogue"))
         {
             if(ds.sentence != "")
             {
