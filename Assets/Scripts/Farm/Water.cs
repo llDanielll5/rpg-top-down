@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
-
     private PlayerItems playerItems;
     private Player player;
-    private bool isWaterRange;
-    
+    public bool isWaterRange;
+
     void Start()
     {
         playerItems = GameObject.FindObjectOfType(typeof(PlayerItems)) as PlayerItems;
@@ -19,18 +18,24 @@ public class Water : MonoBehaviour
     {
         OnGetWater();
     }
-    
+
     public void OnGetWater()
-    { 
-        if(player.IsGetWater && isWaterRange && playerItems.WaterAmount <= playerItems.maxWater)
+    {
+        if (player.IsGetWater && isWaterRange && playerItems.WaterAmount <= playerItems.maxWater)
         {
             playerItems.WaterAmount += 0.05f;
         }
     }
 
-    void OnTriggerStay2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("WaterCan")) isWaterRange = true;
-        else isWaterRange = false;
+        if (collision.CompareTag("WaterCan"))
+            isWaterRange = true;
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("WaterCan"))
+            isWaterRange = false;
     }
 }

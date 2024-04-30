@@ -29,7 +29,7 @@ public class House : MonoBehaviour
     {
         
         if(playerDetect && Input.GetKeyDown(KeyCode.F) && playerItems.UseWood(3))
-        {
+        { 
             isBuilding = true;
             playerAnim.OnHammeringStart();
             houseSprite.color = buildingColor;

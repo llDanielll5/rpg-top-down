@@ -16,30 +16,37 @@ public class DialogueControl : MonoBehaviour
     public idiom language;
 
     [Header("Components")]
-    public GameObject dialogueObj;//janela do dialogo
-    public Image profileSprite;//sprite do perfil
-    public Text speechText;//texto da fala
-    public Text actorNameText;//nome do npc
+    public GameObject dialogueObj; //janela do dialogo
+    public Image profileSprite; //sprite do perfil
+    public Text speechText; //texto da fala
+    public Text actorNameText; //nome do npc
 
     [Header("Settings")]
-    public float typingSpeed;//velocidade de exibição da fala
+    public float typingSpeed; //velocidade de exibição da fala
 
     //variáveis de controle
-    private bool isShowing;//se a janela está visível
+    private bool isShowing; //se a janela está visível
     private int index; //index das sentenças/falas/textos
 
-    public bool IsShowing { get => isShowing; set => isShowing = value; }
+    public bool IsShowing
+    {
+        get => isShowing;
+        set => isShowing = value;
+    }
 
     private string[] sentences;
     private string[] currentActorName;
     private Sprite[] actorSprite;
 
-    public static DialogueControl instance;//transformando em um singleton, estático.
+    private Player player;
+
+    public static DialogueControl instance; //transformando em um singleton, estático.
 
     //chamado antes do Start().
     private void Awake()
     {
         instance = this;
+        player = FindObjectOfType<Player>();
     }
 
     IEnumerator TypeSentence()
@@ -54,9 +61,9 @@ public class DialogueControl : MonoBehaviour
     //pular para a proxima frase/fala
     public void NextSentence()
     {
-        if(speechText.text == sentences[index])
+        if (speechText.text == sentences[index])
         {
-            if(index < sentences.Length - 1)
+            if (index < sentences.Length - 1)
             {
                 index++;
                 profileSprite.sprite = actorSprite[index];
@@ -64,7 +71,7 @@ public class DialogueControl : MonoBehaviour
                 speechText.text = "";
                 StartCoroutine(TypeSentence());
             }
-            else// quando se terminam os textos
+            else // quando se terminam os textos
             {
                 ResetSentence();
             }
@@ -79,6 +86,7 @@ public class DialogueControl : MonoBehaviour
         dialogueObj.SetActive(false);
         sentences = null;
         isShowing = false;
+        player.isPaused = false;
     }
 
     //chamar a fala do npc
@@ -94,6 +102,7 @@ public class DialogueControl : MonoBehaviour
             actorNameText.text = currentActorName[index];
             StartCoroutine(TypeSentence());
             isShowing = true;
+            player.isPaused = true;
         }
     }
 }
