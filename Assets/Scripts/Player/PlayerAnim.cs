@@ -145,6 +145,7 @@ public class PlayerAnim : MonoBehaviour
     {
         if (!isHiting)
         {
+            player.GetComponent<PlayerStats>().DecreaseLife(1f);
             anim.SetTrigger("hit");
             isHiting = true;
         }

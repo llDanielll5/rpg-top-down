@@ -59,6 +59,7 @@ public class AnimationControl : MonoBehaviour
             {
                 anim.SetTrigger("death");
                 skeleton.isDead = true;
+                playerAnim.GetComponent<PlayerExperience>().IncrementExperience = 15;
                 Destroy(skeleton.gameObject, 1.2f);
             }
             else
